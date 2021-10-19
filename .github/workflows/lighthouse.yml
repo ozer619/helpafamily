@@ -9,7 +9,7 @@ jobs:
         with:
           node-version: "14.x"
       - run: |
-           base64 -d < $LIGHT_HOUSE_SECRET > .env
+           $LIGHT_HOUSE_SECRET > base64 -d  > .env
 
       - run: |
           yarn install
