@@ -20,10 +20,9 @@ jobs:
       - name: Get URL
         run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
       - run: yarn install
-        with:
-          urls: ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+        urls: ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
+        uploadArtifacts: true
+        temporaryPublicStorage: true
       - name: run Lighthouse CI
         run: |
           yarn global add @lhci/cli@0.8.x
