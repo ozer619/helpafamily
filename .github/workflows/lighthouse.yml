@@ -8,13 +8,22 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "14.x"
-      - run: |
-          yarn install
+      - run: sleep 30
+      - name: vercel-preview-url
+        uses: zentered/vercel-preview-url@v1.0.0
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         with:
-        urls: |
-          ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
-        uploadArtifacts: true
-        temporaryPublicStorage: true
+          vercel_team_id: ${{ secrets.VERCEL_TEAM_ID }}
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Get URL
+        run: echo "https://${{ steps.vercel_preview_url.outputs.preview_url }}"
+      - run: yarn install
+        with:
+          urls: ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
       - name: run Lighthouse CI
         run: |
           yarn global add @lhci/cli@0.8.x
@@ -23,6 +32,4 @@ jobs:
   
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-          CONTENTFUL_ENVIRONMENT: ${{secrets.CONTENTFUL_ENVIRONMENT}}
-          CONTENTFUL_SPACE_ID: ${{secrets.CONTENTFUL_SPACE_ID}}
-          CONTENTFUL_ACCESS_TOKEN: ${{secrets.CONTENTFUL_ACCESS_TOKEN}}
+          

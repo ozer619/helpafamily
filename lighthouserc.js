@@ -1,8 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'yarn start',
-      url: ['http://localhost:3000'],
+      url: ['steps.vercel_preview_url.outputs.preview_url'],
     },
     assert: {
       assertions: {
